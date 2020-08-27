@@ -24,9 +24,9 @@
                 
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
 
-                <input type="number" name="qty" value="1" class="form-control w-25 d-inline-block">
+                <input type="number" name="qty" v-model="qty" class="form-control w-25 d-inline-block">
 
-                <a href="#" class="ml-3 btn btn-info">Add To Cart</a>
+                <button class="ml-3 btn btn-info" @click="addItem()">Add To Cart</button>
 
               </div>
             </div>
@@ -43,10 +43,19 @@
       return {
         error: false,
         loading: true,
-        item: null
+        item: null,
+        qty:1,
+        mycart: []
       }
     },
     mounted(){
+      if (localStorage.getItem('cart')) {
+        try {
+          this.mycart = JSON.parse(localStorage.getItem('cart'));
+        } catch(e) {
+          localStorage.removeItem('cart');
+        }
+      }
       this.getData();
     },
     methods:{
@@ -64,6 +73,23 @@
             .finally(()=>{
               this.loading = false;
             })
+      },
+      addItem() {
+        // ensure they actually typed something
+        if (!this.item) {
+          return;
+        }
+        let temp = {
+          id:this.item.item_id,
+          name:this.item.item_name,
+          qty:parseInt(this.qty)
+        }
+        this.mycart.push(temp);
+        this.saveItems();
+      },
+      saveItems() {
+        const parsed = JSON.stringify(this.mycart);
+        localStorage.setItem('cart', parsed);
       }
     }
   }

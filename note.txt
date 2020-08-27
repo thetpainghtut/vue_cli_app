@@ -3,7 +3,7 @@ Vue CLI
 - using node package (npm install)
   - package.json (node_modules)
 
-- entry point => main.js
+- entry point => src/main.js
   - create new instance
   - mount el (#app)
   - all packages import in main.js

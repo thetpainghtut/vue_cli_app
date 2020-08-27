@@ -16,7 +16,7 @@
             <router-link :to="/item/+item.item_id">
               <a href="#" class="btn btn-primary">Detail</a>
             </router-link>
-            <a href="#" class="ml-3 btn btn-info">Add To Cart</a>
+            <button class="ml-3 btn btn-info" @click="addItem(item.item_id)">Add To Cart</button>
           </div>
         </div>
       </div>
@@ -30,10 +30,18 @@
       return {
         error: false,
         loading: true,
-        items: null
+        items: null,
+        mycart: []
       }
     },
     mounted(){
+      if (localStorage.getItem('cart')) {
+        try {
+          this.mycart = JSON.parse(localStorage.getItem('cart'));
+        } catch(e) {
+          localStorage.removeItem('cart');
+        }
+      }
       this.getData();
     },
     methods:{
@@ -50,6 +58,26 @@
             .finally(()=>{
               this.loading = false;
             })
+      },
+      addItem(id) {
+        // ensure they actually typed something
+        const item = this.items.find(item => item.item_id == id);
+
+        console.log(item);
+        if (!item) {
+          return;
+        }
+        let temp = {
+          id:item.item_id,
+          name:item.item_name,
+          qty:1
+        }
+        this.mycart.push(temp);
+        this.saveItems();
+      },
+      saveItems() {
+        const parsed = JSON.stringify(this.mycart);
+        localStorage.setItem('cart', parsed);
       }
     }
   }

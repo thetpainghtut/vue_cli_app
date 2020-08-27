@@ -46,7 +46,7 @@
     },
     methods:{
       getItems() {
-        this.$http.get('http://newsapi.org/v2/everything?q=bitcoin&from=2020-07-25&sortBy=publishedAt&apiKey=a82bfaa005944a2ab394fdb6bd06775c')
+        this.$http.get('http://newsapi.org/v2/everything?q=bitcoin&from=2020-07-27&sortBy=publishedAt&apiKey=a82bfaa005944a2ab394fdb6bd06775c')
             .then(res =>{
               console.log(res);
               this.articles = res.data.articles;
