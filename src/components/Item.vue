@@ -7,7 +7,12 @@
     </div>
     
     <div class="row">
-      <div class="col-md-4" v-for="item in items" :key="item.item_id">
+      <div class="col-md-12">
+        <input type="text" name="search" v-model="q" class="form-control" @keyup="filter()">
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-3" v-for="item in items" :key="item.item_id">
         <div class="card">
           <img :src="item.item_photo" class="img-fluid">
           <div class="card-body">
@@ -28,6 +33,7 @@
   export default{
     data() {
       return {
+        q:null,
         error: false,
         loading: true,
         items: null,
@@ -46,10 +52,10 @@
     },
     methods:{
       getData(){
-        this.$http.get('http://osapi.maythetpaing.me/api/items')
+        this.$http.get('http://osapi.thetpainghtut.com/api/v1/items')
             .then(res =>{
               console.log(res);
-              this.items = res.data;
+              this.items = res.data.items;
             })
             .catch(err=>{
               console.log(err);
@@ -78,6 +84,24 @@
       saveItems() {
         const parsed = JSON.stringify(this.mycart);
         localStorage.setItem('cart', parsed);
+      },
+      filter(){
+        this.$http.get('http://osapi.thetpainghtut.com/api/v1/filter_item',{
+              params: {
+                q: this.q
+              }
+            })
+            .then(res =>{
+              console.log(res);
+              this.items = res.data.items;
+            })
+            .catch(err=>{
+              console.log(err);
+              this.error = true;
+            })
+            .finally(()=>{
+              this.loading = false;
+            })
       }
     }
   }
