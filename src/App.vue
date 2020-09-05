@@ -20,6 +20,9 @@
             <li class="nav-item">
               <router-link :to="{name:'cart'}" class="nav-link mr-2"><b-icon icon="cart-plus" variant="info"></b-icon></router-link>
             </li>
+            <li class="nav-item">
+              <router-link :to="{name:'orders'}" class="nav-link mr-2">Orders</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -40,7 +43,7 @@ export default {
     }
   },
   mounted(){
-      this.$router.replace('/')
+      // this.$router.replace('/')
   }
 }
 </script>

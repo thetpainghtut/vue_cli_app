@@ -24,7 +24,7 @@
                 
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
 
-                <input type="number" name="qty" v-model="qty" class="form-control w-25 d-inline-block">
+                <input type="number" name="qty" v-model="qty" class="form-control w-25 d-inline-block" min="1">
 
                 <button class="ml-3 btn btn-info" @click="addItem()">Add To Cart</button>
 
@@ -82,6 +82,7 @@
         let temp = {
           id:this.item.item_id,
           name:this.item.item_name,
+          price:this.item.item_price,
           qty:parseInt(this.qty)
         }
         this.mycart.push(temp);

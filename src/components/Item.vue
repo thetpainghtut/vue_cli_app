@@ -8,7 +8,7 @@
     
     <div class="row">
       <div class="col-md-12">
-        <input type="text" name="search" v-model="q" class="form-control" @keyup="filter()">
+        <input type="text" name="search" v-model="q" class="form-control" @keyup="filter()" placeholder="Search by item name ...">
       </div>
     </div>
     <div class="row mt-3">
@@ -18,7 +18,7 @@
           <div class="card-body">
             <h5 class="card-title">{{item.item_name}}</h5>
             <p class="card-text">{{ item.item_desc }} Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <router-link :to="/item/+item.item_id">
+            <router-link :to="{name: 'detail', params: { id: item.item_id }}">
               <a href="#" class="btn btn-primary">Detail</a>
             </router-link>
             <button class="ml-3 btn btn-info" @click="addItem(item.item_id)">Add To Cart</button>
@@ -70,12 +70,14 @@
         const item = this.items.find(item => item.item_id == id);
 
         console.log(item);
+
         if (!item) {
           return;
         }
         let temp = {
           id:item.item_id,
           name:item.item_name,
+          price:item.item_price,
           qty:1
         }
         this.mycart.push(temp);
